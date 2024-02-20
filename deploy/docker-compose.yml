@@ -1,0 +1,17 @@
+version: '3'
+services:
+  rsstranslator:
+    image: rsstranslator/rsstranslator
+    environment:
+      - PYTHONUNBUFFERED=0
+      - PYTHONDONTWRITEBYTECODE=1
+      - DEBUG=0
+      - DEMO=0
+      - USER_MANAGEMENT=0
+      - CSRF_TRUSTED_ORIGINS=http://127.0.0.1
+    volumes:
+      - ./data:/home/rsstranslator/data
+    ports:
+      - 8000:8000
+    restart: always
+    command: bash -c "python manage.py init_server && python manage.py run_huey & uvicorn config.asgi:application --host 0.0.0.0"
